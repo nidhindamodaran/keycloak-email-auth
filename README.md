@@ -9,6 +9,13 @@ Execute `mvn clean install` from the project path. This is build jar file (keycl
 Add the jar with dependencies to the Keycloak server:
   * `$ cp target/<jar file with dependecy>.jar _KEYCLOAK_HOME_/standalone/deployments/`
 
+Add below environment variables for SMTP configuration
+- EMAIL_PASSWORD
+- EMAIL_USERNAME
+- FROM_EMAIL
+- SMTP_HOST
+- SMTP_PORT
+
 ### Configuration
 
 Configuring realm in kaycloak to use email authentication
