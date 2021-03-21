@@ -14,6 +14,8 @@ import com.nidhin.keycloak.email.utils.EmailCodeUtils;
 import org.keycloak.theme.Theme;
 import com.nidhin.keycloak.email.Constants;
 import com.nidhin.keycloak.email.service.EmailServiceException;
+import com.nidhin.keycloak.email.representation.VerificationCodeRepresentation;
+import com.nidhin.keycloak.email.service.VerificationCodeService;
 
 import org.jboss.logging.Logger;
 import java.io.IOException;
@@ -72,6 +74,16 @@ public class GenerateOtpResource implements RealmResourceProvider {
         String email = userAttributeUtils.getEmail(user);
         EmailCodeUtils emailCodeUtils = new EmailCodeUtils();
         String code = emailCodeUtils.generateCode();
+
+        VerificationCodeRepresentation rep = new VerificationCodeRepresentation();
+        rep.setUserId(user.getId());
+        rep.setKind(formData.getFirst("kind"));
+        rep.setCode(code);
+
+
+        VerificationCodeService codeService = new VerificationCodeService(session);
+        codeService.addVerificationCode(rep);
+
         logger.info("------------------" + email);
         logger.info("------------------" + code);
         Locale locale = session.getContext().resolveLocale(user);

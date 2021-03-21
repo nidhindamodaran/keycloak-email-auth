@@ -1,1 +1,1 @@
-com.nidhin.keycloak.email.otp.GenerateOtpResource
+com.nidhin.keycloak.email.otp.GenerateOtpResourceFactory
