@@ -1,2 +1,3 @@
 com.nidhin.keycloak.email.authenticator.EmailAuthenticatorFactory
 com.nidhin.keycloak.email.authenticator.EmailCodeAuthenticatorFactory
+com.nidhin.keycloak.email.authenticator.EmailIdAuthenticatorFactory
