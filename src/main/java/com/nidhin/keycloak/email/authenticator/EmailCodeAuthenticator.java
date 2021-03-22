@@ -5,6 +5,7 @@ import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.connections.jpa.JpaConnectionProvider;
 import com.nidhin.keycloak.email.authenticator.BaseDirectGrantAuthenticator;
 import org.keycloak.events.Errors;
+import org.jboss.logging.Logger;
 import org.keycloak.models.AuthenticatorConfigModel;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
@@ -19,7 +20,7 @@ import java.util.Date;
 import java.util.Optional;
 
 public class EmailCodeAuthenticator extends BaseDirectGrantAuthenticator {
-
+    private static final Logger logger = Logger.getLogger(EmailCodeAuthenticator.class);
     public static final String FAILURE_CHALLENGE = "_failure-challenge";
 
     private final KeycloakSession session;
@@ -64,6 +65,7 @@ public class EmailCodeAuthenticator extends BaseDirectGrantAuthenticator {
     }
 
     private boolean validateVerificationCode(AuthenticationFlowContext context) {
+        logger.info("-----Called verification code authenticator for " + context.getUser().getId() + " -------");
         String code = context.getHttpRequest().getDecodedFormParameters().getFirst("code");
         String kind = null;
         AuthenticatorConfigModel authenticatorConfig = context.getAuthenticatorConfig();
@@ -83,7 +85,9 @@ public class EmailCodeAuthenticator extends BaseDirectGrantAuthenticator {
                 return true;
             }
         }
-        catch (NoResultException err){ }
+        catch (NoResultException err){
+            logger.info("-------------Verification code authentication failed for " + context.getUser().getId() +"-------------------");
+        }
         return false;
     }
 

@@ -15,7 +15,7 @@ import org.keycloak.theme.Theme;
 import com.nidhin.keycloak.email.Constants;
 import com.nidhin.keycloak.email.service.EmailServiceException;
 import com.nidhin.keycloak.email.representation.VerificationCodeRepresentation;
-import com.nidhin.keycloak.email.service.VerificationCodeService;
+import com.nidhin.keycloak.email.service.VerificationCodeServiceImpl;
 import org.keycloak.common.ClientConnection;
 import org.keycloak.services.managers.AppAuthManager;
 import org.keycloak.services.resources.admin.permissions.AdminPermissionEvaluator;
@@ -63,20 +63,6 @@ public class GenerateOtpResource {
         return this;
     }
 
-//    @GET
-//    @Path("users")
-//    @NoCache
-//    @Produces({MediaType.APPLICATION_JSON})
-//    @Encoded
-//    public List<UserDetails> getUsers() {
-//        List<UserModel> userModel = session.users().getUsers(session.getContext().getRealm());
-//        return userModel.stream().map(e -> toUserDetail(e)).collect(Collectors.toList());
-//    }
-
-//    private UserDetails toUserDetail(UserModel um) {
-//        return new UserDetails(um.getUsername(), um.getFirstName(), um.getLastName());
-//
-//    }
 
     @POST
     @Path("generate")
@@ -97,13 +83,9 @@ public class GenerateOtpResource {
         rep.setCode(code);
 
 
-//        VerificationCodeService codeService = new VerificationCodeService(session);
-
-        VerificationCodeRepresentation vc = session.getProvider(VerificationCodeService.class).addVerificationCode(rep);
-//        codeService.addVerificationCode(rep);
-
-        logger.info("------------------" + email);
-        logger.info("------------------" + code);
+        VerificationCodeServiceImpl codeService = new VerificationCodeServiceImpl(session);
+//        VerificationCodeRepresentation vc = session.getProvider(VerificationCodeService.class).addVerificationCode(rep);
+        codeService.addVerificationCode(rep);
         Locale locale = session.getContext().resolveLocale(user);
         String emailMessageFormat;
         try {
