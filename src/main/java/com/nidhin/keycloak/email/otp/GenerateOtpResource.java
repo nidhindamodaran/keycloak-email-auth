@@ -69,7 +69,7 @@ public class GenerateOtpResource {
     @NoCache
     @Produces({MediaType.APPLICATION_JSON})
     public Response generateOtp(@Context HttpRequest request, final MultivaluedMap<String, String> formData) {
-        logger.info("------------------" + formData.getFirst("userName"));
+        logger.info("-------Generating OTP for" + formData.getFirst("userName") +"-----------");
         RealmModel model = session.getContext().getRealm();
         UserModel user = session.users().getUserByUsername(formData.getFirst("userName"), model);
         UserAttributeUtils userAttributeUtils = new UserAttributeUtils();
