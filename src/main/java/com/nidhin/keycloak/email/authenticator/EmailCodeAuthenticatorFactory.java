@@ -17,11 +17,10 @@ public class EmailCodeAuthenticatorFactory implements AuthenticatorFactory, Conf
     public static final String MAX_AGE = "verificationCode.max.age";
     public static final String KIND = "verificationCode.kind";
 
-    public static final String PROVIDER_ID = "email-code-authenticator";
+    public static final String PROVIDER_ID = "email-api-code-authenticator";
 
     @Override
     public void init(Config.Scope config) {
-
     }
 
     @Override

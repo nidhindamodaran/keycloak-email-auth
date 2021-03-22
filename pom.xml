@@ -12,7 +12,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>11</java.version>
+        <java.version>1.8</java.version>
         <keycloak.version>12.0.4</keycloak.version>
         <jboss-logging.version>3.4.1.Final</jboss-logging.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
@@ -20,8 +20,6 @@
         <guice.version>4.2.1</guice.version>
         <lombok.version>1.18.10</lombok.version>
         <maven.assembly.plugin>2.4.1</maven.assembly.plugin>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>

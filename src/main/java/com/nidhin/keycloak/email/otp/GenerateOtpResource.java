@@ -16,6 +16,10 @@ import com.nidhin.keycloak.email.Constants;
 import com.nidhin.keycloak.email.service.EmailServiceException;
 import com.nidhin.keycloak.email.representation.VerificationCodeRepresentation;
 import com.nidhin.keycloak.email.service.VerificationCodeService;
+import org.keycloak.common.ClientConnection;
+import org.keycloak.services.managers.AppAuthManager;
+import org.keycloak.services.resources.admin.permissions.AdminPermissionEvaluator;
+import org.keycloak.services.resources.admin.permissions.AdminPermissions;
 
 import org.jboss.logging.Logger;
 import java.io.IOException;
@@ -30,11 +34,23 @@ import java.util.stream.Collectors;
 import java.text.MessageFormat;
 import java.util.Locale;
 
-public class GenerateOtpResource implements RealmResourceProvider {
+public class GenerateOtpResource {
     private final KeycloakSession session;
     private static final Logger logger = Logger.getLogger(GenerateOtpResource.class);
 
+    @Context
+    private HttpHeaders httpHeaders;
+
+    @Context
+    private ClientConnection clientConnection;
+
+    private AppAuthManager authManager;
+    protected AdminPermissionEvaluator auth;
+
     public GenerateOtpResource(KeycloakSession session) {
+        this.httpHeaders = session.getContext().getRequestHeaders();
+        this.clientConnection = session.getContext().getConnection();
+        this.authManager = new AppAuthManager();
         this.session = session;
     }
 
