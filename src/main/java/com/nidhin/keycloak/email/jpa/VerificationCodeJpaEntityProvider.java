@@ -4,6 +4,11 @@ import org.keycloak.connections.jpa.entityprovider.JpaEntityProvider;
 
 import java.util.Collections;
 import java.util.List;
+/**
+ * @author <a href="mailto:nidhin.d.nambiar@gmail.com">Nidhin Damodaran</a>
+ *
+ * VerificationCodeJpaEntityProviderFactory.
+ */
 
 public class VerificationCodeJpaEntityProvider implements JpaEntityProvider {
 

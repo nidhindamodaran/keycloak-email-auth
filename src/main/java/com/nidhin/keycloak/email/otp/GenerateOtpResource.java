@@ -81,8 +81,9 @@ public class GenerateOtpResource implements RealmResourceProvider {
         rep.setCode(code);
 
 
-        VerificationCodeService codeService = new VerificationCodeService(session);
-        codeService.addVerificationCode(rep);
+//        VerificationCodeService codeService = new VerificationCodeService(session);
+        VerificationCodeRepresentation vc = session.getProvider(VerificationCodeService.class).addVerificationCode(rep);
+//        codeService.addVerificationCode(rep);
 
         logger.info("------------------" + email);
         logger.info("------------------" + code);

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    <changeSet author="nidhin.d.nambiar@gmail.com" id="keycloak-email-code-1.2">
+    <changeSet author="nidhin.d.nambiar@gmail.com" id="keycloak-email-code-1.6">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="VERIFICATION_CODE"/>
+            </not>
+        </preConditions>
 
         <createTable tableName="VERIFICATION_CODE">
             <column name="ID" type="VARCHAR(36)">

@@ -6,6 +6,12 @@ import org.keycloak.connections.jpa.entityprovider.JpaEntityProviderFactory;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
+/**
+ * @author <a href="mailto:nidhin.d.nambiar@gmail.com">Nidhin Damodaran</a>
+ *
+ * VerificationCodeJpaEntityProviderFactory.
+ */
+
 public class VerificationCodeJpaEntityProviderFactory implements JpaEntityProviderFactory {
 
     protected static final String ID = "verification-code-entity-provider";

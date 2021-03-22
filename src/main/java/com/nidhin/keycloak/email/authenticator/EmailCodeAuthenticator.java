@@ -64,8 +64,6 @@ public class EmailCodeAuthenticator extends BaseDirectGrantAuthenticator {
     }
 
     private boolean validateVerificationCode(AuthenticationFlowContext context) {
-//        String phoneNumber = Optional.ofNullable(context.getHttpRequest().getDecodedFormParameters().getFirst("phone_number")).orElse(
-//                context.getHttpRequest().getDecodedFormParameters().getFirst("phoneNumber"));
         String code = context.getHttpRequest().getDecodedFormParameters().getFirst("code");
         String kind = null;
         AuthenticatorConfigModel authenticatorConfig = context.getAuthenticatorConfig();
