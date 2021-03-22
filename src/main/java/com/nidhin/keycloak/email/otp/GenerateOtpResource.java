@@ -98,6 +98,7 @@ public class GenerateOtpResource {
 
 
 //        VerificationCodeService codeService = new VerificationCodeService(session);
+
         VerificationCodeRepresentation vc = session.getProvider(VerificationCodeService.class).addVerificationCode(rep);
 //        codeService.addVerificationCode(rep);
 
