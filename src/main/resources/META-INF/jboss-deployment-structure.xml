@@ -2,6 +2,12 @@
     <deployment>
         <dependencies>
             <module name="org.apache.commons.lang" />
+            <module name="org.hibernate" />
+            <module name="org.keycloak.keycloak-core" />
+            <module name="org.keycloak.keycloak-model-jpa" />
+            <module name="org.keycloak.keycloak-server-spi" />
+            <module name="org.keycloak.keycloak-server-spi-private" />
+            <module name="org.keycloak.keycloak-services" />
         </dependencies>
     </deployment>
 </jboss-deployment-structure>
