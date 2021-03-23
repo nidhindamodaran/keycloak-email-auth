@@ -14,6 +14,12 @@ import com.nidhin.keycloak.email.utils.EmailCodeUtils;
 import org.keycloak.theme.Theme;
 import com.nidhin.keycloak.email.Constants;
 import com.nidhin.keycloak.email.service.EmailServiceException;
+import com.nidhin.keycloak.email.representation.VerificationCodeRepresentation;
+import com.nidhin.keycloak.email.service.VerificationCodeServiceImpl;
+import org.keycloak.common.ClientConnection;
+import org.keycloak.services.managers.AppAuthManager;
+import org.keycloak.services.resources.admin.permissions.AdminPermissionEvaluator;
+import org.keycloak.services.resources.admin.permissions.AdminPermissions;
 
 import org.jboss.logging.Logger;
 import java.io.IOException;
@@ -28,11 +34,23 @@ import java.util.stream.Collectors;
 import java.text.MessageFormat;
 import java.util.Locale;
 
-public class GenerateOtpResource implements RealmResourceProvider {
+public class GenerateOtpResource {
     private final KeycloakSession session;
     private static final Logger logger = Logger.getLogger(GenerateOtpResource.class);
 
+    @Context
+    private HttpHeaders httpHeaders;
+
+    @Context
+    private ClientConnection clientConnection;
+
+    private AppAuthManager authManager;
+    protected AdminPermissionEvaluator auth;
+
     public GenerateOtpResource(KeycloakSession session) {
+        this.httpHeaders = session.getContext().getRequestHeaders();
+        this.clientConnection = session.getContext().getConnection();
+        this.authManager = new AppAuthManager();
         this.session = session;
     }
 
@@ -45,35 +63,29 @@ public class GenerateOtpResource implements RealmResourceProvider {
         return this;
     }
 
-//    @GET
-//    @Path("users")
-//    @NoCache
-//    @Produces({MediaType.APPLICATION_JSON})
-//    @Encoded
-//    public List<UserDetails> getUsers() {
-//        List<UserModel> userModel = session.users().getUsers(session.getContext().getRealm());
-//        return userModel.stream().map(e -> toUserDetail(e)).collect(Collectors.toList());
-//    }
-
-//    private UserDetails toUserDetail(UserModel um) {
-//        return new UserDetails(um.getUsername(), um.getFirstName(), um.getLastName());
-//
-//    }
 
     @POST
     @Path("generate")
     @NoCache
     @Produces({MediaType.APPLICATION_JSON})
     public Response generateOtp(@Context HttpRequest request, final MultivaluedMap<String, String> formData) {
-        logger.info("------------------" + formData.getFirst("userName"));
+        logger.info("-------Generating OTP for : " + formData.getFirst("email") +"-----------");
         RealmModel model = session.getContext().getRealm();
-        UserModel user = session.users().getUserByUsername(formData.getFirst("userName"), model);
+        UserModel user =  session.users().getUserByEmail(formData.getFirst("email"), model);
         UserAttributeUtils userAttributeUtils = new UserAttributeUtils();
         String email = userAttributeUtils.getEmail(user);
         EmailCodeUtils emailCodeUtils = new EmailCodeUtils();
         String code = emailCodeUtils.generateCode();
-        logger.info("------------------" + email);
-        logger.info("------------------" + code);
+
+        VerificationCodeRepresentation rep = new VerificationCodeRepresentation();
+        rep.setUserId(user.getId());
+        rep.setKind(formData.getFirst("kind"));
+        rep.setCode(code);
+
+
+        VerificationCodeServiceImpl codeService = new VerificationCodeServiceImpl(session);
+//        VerificationCodeRepresentation vc = session.getProvider(VerificationCodeService.class).addVerificationCode(rep);
+        codeService.addVerificationCode(rep);
         Locale locale = session.getContext().resolveLocale(user);
         String emailMessageFormat;
         try {
